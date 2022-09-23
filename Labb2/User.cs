@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Labb2
 {
-    internal class User
+    public class User : UserBase
     {
 
         public string Name { get; set; }
@@ -19,10 +20,6 @@ namespace Labb2
         }
 
         public char Tier { get; set; }
-
-        public void ToStringer(string Name, string Password, char Tier)
-        {
-
-        }
+        
     }
 }

@@ -6,8 +6,23 @@ using System.Threading.Tasks;
 
 namespace Labb2
 {
-    internal class Cart
+    internal class Cart : User
     {
-        List<product>
+        List<product> shoppingCart = new List<product>();
+        int pricetotal;
+        public void PrintCart(List<product> shoppingCart)
+        {
+
+        }
+
+        public List<product> RemoveOne(List<product> shoppingCart)
+        {
+            return shoppingCart;
+        }
+
+        public double PriceTotal(List<product> shoppingCart)
+        {
+            return pricetotal;
+        }
     }
 }
