@@ -1,26 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Labb2
+namespace Labb2;
+
+public class shop
 {
-    internal class shop : product
+    Global screen = new Global();
+    public List<Product> Sortiment = new List<Product>();
+    
+    public List<Product> SortiFill(List<Product> Sortiment)
     {
-        public List<product> Sortiment = new List<product>();
+    Product gurka = new Product() { name = "Cucumber", price = 50 };
+    Sortiment.Add(gurka);
+    Product vaselin = new Product() { name = "Vaseline", price = 75 };
+    Sortiment.Add(vaselin);
+    Product kondomer = new Product() { name = "Condoms", price = 110 };
+    Sortiment.Add(kondomer);
 
-        public product AddtoCart(List<product> Sortiment)
-        {
-            return Sortiment[1];
-        }
+    return Sortiment;
+}
+    
 
-        public void PrintSorti(List<product> Sortiment)
+
+    public Product AddtoCart(List<Product> Sortiment)
+    {
+
+        return Sortiment[1];
+    }
+
+    public void PrintSorti(List<Product> Sortiment)
+    {
+        foreach (var VARIABLE in Sortiment)
         {
-            foreach (var VARIABLE in this.Sortiment)
-            {
-                
-            }
+
         }
     }
 }

@@ -5,21 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Labb2
+namespace Labb2;
+
+public class User
 {
-    public class User : UserBase
+
+    public string Name { get; set; }
+    private string _password;
+
+    public string Password
     {
-
-        public string Name { get; set; }
-        private string _password;
-
-        public string Password
-        {
-            get { return _password; }
-            set { _password = value; }
-        }
-
-        public char Tier { get; set; }
-        
+        get { return _password; }
+        set { _password = value; }
     }
+
+    public char Tier { get; set; }
+        
 }
