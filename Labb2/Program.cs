@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Labb2;
 
-
 UserBase currentUsers = new UserBase();
 currentUsers.OldUser(currentUsers.UserList);
 shop theShop = new shop();

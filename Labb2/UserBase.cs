@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,17 +32,24 @@ public class UserBase
     {
         screen.NewScreen();
         User newUser = new User();
-            
+
         screen.Print("Please enter your name");
         newUser.Name = Console.ReadLine();
+        while (true) {
+            screen.Print("Select a password");
+            screen.Center();
+            string passCheck = Console.ReadLine();
+            Console.WriteLine();
+            screen.Print("Please reconfirm your password");
+            string passcheck2 = Console.ReadLine();
+            if (passCheck == passcheck2)
+            {
+                newUser.Password = passCheck;
+                break;
+            }
+        }
 
-        screen.Print("Select a password");
-        screen.Center();
-        string passCheck = Console.ReadLine();
-        Console.WriteLine();
-        newUser.Password = "111";
-
-        screen.Print("vilken Kund-nivå har ni?");
+        screen.Print("Vilken Kund-nivå har ni?");
         
         while (true)
         {
@@ -74,16 +82,18 @@ public class UserBase
 
     public User LogIn(List<User> currentUsers)
     {
-
+        string tempCheck = "";
         var indexCheck = -1;
 
+        //användare
         while (true)
         {
             screen.NewScreen();
             screen.Print("what is your username?"); 
             screen.Center();
-            var tempCheck = Console.ReadLine();
-           
+            tempCheck = Console.ReadLine();
+
+            //kolla om användaren finns
             for (int i = 0; i < currentUsers.Count; i++)
             {
                 if (currentUsers[i].Name == tempCheck)
@@ -92,20 +102,41 @@ public class UserBase
                 }
             }
 
+            //om användaren finns, bryt ut ur loopen
             if (indexCheck != -1)
             {
                 break;
             }
-            screen.Print("No User Found, Please try again.");
 
-            
+            screen.Print("No User Found, Please try again.");
             System.Threading.Thread.Sleep(1500);
         }
+        int passCheck = 3;
+        //Lösen
+        while (true) 
+        {
+            screen.NewScreen();
+            screen.Print("and what is your password?");
+            screen.Center();
+            
+            tempCheck = Console.ReadLine();
 
-        screen.Print("and what is your password?");
-        Console.ReadKey();
-
-        return currentUsers[indexCheck];
+            //tre försök med att matcha lösenordet till inlogget
+            if (currentUsers[indexCheck].Password == tempCheck)
+            {
+                return currentUsers[indexCheck];
+            }
+            else if (passCheck == 0)
+            {
+                return null;
+            }
+            else
+            {
+                screen.Print("Wrong password " + passCheck + " attempts left");
+                passCheck--;
+                Thread.Sleep(1500);
+            }
+        }
     }
 
 }

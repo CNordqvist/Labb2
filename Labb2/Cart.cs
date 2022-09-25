@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Labb2;
 
-public class Cart : User
+public class Cart
 {
-    List<Product> shoppingCart = new List<Product>();
+    public List<Product> ShoppingCart = new List<Product>();
     int pricetotal;
     public void PrintCart(List<Product> shoppingCart)
     {

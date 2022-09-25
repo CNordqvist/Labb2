@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Labb2;
 
-public class User
+public class User : Cart
 {
 
     public string Name { get; set; }

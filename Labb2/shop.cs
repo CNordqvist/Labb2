@@ -9,7 +9,7 @@ namespace Labb2;
 
 public class shop
 {
-    Global screen = new Global();
+    private Global screen = new Global();
     public List<Product> Sortiment = new List<Product>();
     
     public List<Product> SortiFill(List<Product> Sortiment)
@@ -22,7 +22,7 @@ public class shop
     Sortiment.Add(kondomer);
 
     return Sortiment;
-}
+    }
     
 
 
@@ -36,7 +36,9 @@ public class shop
     {
         foreach (var VARIABLE in Sortiment)
         {
-
+            screen.NewScreen();
+            screen.Center();
+            Console.WriteLine(this.Sortiment.ToString());
         }
     }
 }
