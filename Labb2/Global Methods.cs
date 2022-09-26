@@ -18,6 +18,45 @@ public class Global
         }
     }
 
+    //skriv tillbaka userInput centrerat och retunera sedan strängen
+    public string Read()
+    {
+        string readBack = "";
+
+        Console.WriteLine(" ");
+        while (true)
+        {
+
+            var pos = Console.GetCursorPosition().Top;
+            Console.SetCursorPosition((Console.WindowWidth / 2 - readBack.Length / 2), pos);
+
+
+            var input = Console.ReadKey();
+            if
+                (char.IsDigit(input.KeyChar) || char.IsLetter(input.KeyChar) || input.Key == ConsoleKey.Spacebar)
+            {
+                readBack = readBack + (char)input.KeyChar;
+            }
+            else if (input.Key == ConsoleKey.Backspace)
+            {
+                Console.SetCursorPosition((Console.WindowWidth / 2 - readBack.Length / 2), pos);
+                foreach (var VARIABLE in readBack)
+                {
+                    Console.Write(" ");
+                }
+                readBack = readBack.Remove(readBack.Length - 1);
+
+            }
+            else if
+                (input.Key == ConsoleKey.Enter) {
+                break;
+            }
+            Console.SetCursorPosition((Console.WindowWidth / 2 - readBack.Length / 2), pos);
+            Console.Write(readBack);
+        }
+        return readBack;
+    }
+
     // centrera och printa
     public void Print(string printIt)
     {
@@ -25,7 +64,7 @@ public class Global
         Console.WriteLine(printIt);
     }
 
-    //centrera innan 
+    //centrera innan input
     public void Center()
     {
         Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
@@ -115,6 +154,19 @@ public class Global
             Console.WriteLine("");
         }
 
+    }
+
+    //konvertera till zimbabwean dollars
+    public double ZimRate(double convIt)
+    {
+        convIt = convIt * 29;
+        return convIt;
+    }
+    //konvertera till venezulenska bolivar
+    public double VenRate(double convIt)
+    {
+        convIt = convIt * 20384900000;
+        return convIt;
     }
 
     

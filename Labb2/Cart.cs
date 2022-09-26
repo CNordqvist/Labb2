@@ -9,7 +9,7 @@ namespace Labb2;
 public class Cart
 {
     public List<Product> ShoppingCart = new List<Product>();
-    int pricetotal;
+    
     public void PrintCart(List<Product> shoppingCart)
     {
 
@@ -19,9 +19,5 @@ public class Cart
     {
         return shoppingCart;
     }
-
-    public double PriceTotal(List<Product> shoppingCart)
-    {
-        return pricetotal;
-    }
+    
 }

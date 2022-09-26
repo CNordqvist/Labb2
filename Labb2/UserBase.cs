@@ -28,20 +28,32 @@ public class UserBase
         return UserList;
     }
 
-    public List<User> Register()
+    public List<User> Register(List<User> currentUser)
     {
         screen.NewScreen();
+        
         User newUser = new User();
 
         screen.Print("Please enter your name");
-        newUser.Name = Console.ReadLine();
+
+        var temp = screen.Read();
+        foreach (var VARIABLE in currentUser)
+        {
+            //sök igenom currentUser.name för att se till att användarna är unika
+        }
+
+        newUser.Name = screen.Read();
+
+
         while (true) {
+
             screen.Print("Select a password");
-            screen.Center();
-            string passCheck = Console.ReadLine();
+            
+            string passCheck = screen.Read();
             Console.WriteLine();
             screen.Print("Please reconfirm your password");
-            string passcheck2 = Console.ReadLine();
+            
+            string passcheck2 = screen.Read();
             if (passCheck == passcheck2)
             {
                 newUser.Password = passCheck;
@@ -53,8 +65,7 @@ public class UserBase
         
         while (true)
         {
-            screen.Center();
-            string tempCheck = Console.ReadLine();
+            string tempCheck = screen.Read();
 
             if (tempCheck is "Gold" or "gold" or "g" or "G")
             {
@@ -76,6 +87,8 @@ public class UserBase
                 screen.Print("Felaktig inmatning, var god skriv Gold/Silver/Bronze");
             }
         }
+        screen.Print($" {newUser.Name} har nu blivigt registrerad.");
+        Thread.Sleep(1500);
         UserList.Add(newUser);
         return UserList;
     }

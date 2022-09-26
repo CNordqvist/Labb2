@@ -9,8 +9,7 @@ shop theShop = new shop();
 theShop.SortiFill(theShop.Sortiment);
 Menu Menu = new Menu();
 
-
+    
 Menu.IntroScreen(currentUsers, theShop);
-
 
 
