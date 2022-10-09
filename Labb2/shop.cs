@@ -9,36 +9,18 @@ namespace Labb2;
 
 public class shop
 {
-    private Global screen = new Global();
     public List<Product> Sortiment = new List<Product>();
     
     public List<Product> SortiFill(List<Product> Sortiment)
     {
-    Product gurka = new Product() { name = "Cucumber", price = 50 };
+    Product gurka = new Product() { Name = "Cucumber", Price = 40 };
     Sortiment.Add(gurka);
-    Product vaselin = new Product() { name = "Vaseline", price = 75 };
-    Sortiment.Add(vaselin);
-    Product kondomer = new Product() { name = "Condoms", price = 110 };
-    Sortiment.Add(kondomer);
+    Product tomat = new Product() { Name = "Tomato", Price = 30 };
+    Sortiment.Add(tomat);
+    Product sallad = new Product() { Name = "Lettuce", Price = 25 };
+    Sortiment.Add(sallad);
 
     return Sortiment;
     }
     
-
-
-    public Product AddtoCart(List<Product> Sortiment)
-    {
-
-        return Sortiment[1];
-    }
-
-    public void PrintSorti(List<Product> Sortiment)
-    {
-        foreach (var VARIABLE in Sortiment)
-        {
-            screen.NewScreen();
-            screen.Center();
-            Console.WriteLine(this.Sortiment.ToString());
-        }
-    }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
@@ -7,52 +8,68 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 namespace Labb2;
 
 public class UserBase
 {
     private Global screen = new Global();
-    public List<User> UserList = new List<User>();
-        
-    public List<User> OldUser(List<User> UserList)
+    public List<TieredUser> UserList = new List<TieredUser>();
+
+
+    public List<TieredUser> OldUser(List<TieredUser> UserList)
     {
-        User knatte = new User() {Name = "Knatte", Password = "123", Tier = 'G'};
+        TieredUser knatte = new TieredUser() { Name = "Knatte", Password = "123", Tier = 'G' };
         UserList.Add(knatte);
 
-        User fnatte = new User() { Name = "Fnatte", Password = "321", Tier = 'S' };
+        TieredUser fnatte = new TieredUser() { Name = "Fnatte", Password = "321", Tier = 'S' };
         UserList.Add(fnatte);
 
-        User tjatte = new User() { Name = "Tjatte", Password = "666", Tier = 'B' };
+        TieredUser tjatte = new TieredUser() { Name = "Tjatte", Password = "213", Tier = 'B' };
         UserList.Add(tjatte);
 
         return UserList;
     }
 
-    public List<User> Register(List<User> currentUser)
+    public List<TieredUser> Register(List<TieredUser> currentUser)
     {
         screen.NewScreen();
-        
-        User newUser = new User();
 
-        screen.Print("Please enter your name");
+        TieredUser newUser = new TieredUser();
+        var desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var listPath = Path.Combine(desktopDir, "UserText.txt");
 
+
+        screen.Print("Please enter your desired username");
         var temp = screen.Read();
-        foreach (var VARIABLE in currentUser)
+
+        //försök för att kolla om användaren är unik
+        while (true)
         {
-            //sök igenom currentUser.name för att se till att användarna är unika
+            using StreamReader sr = new StreamReader(listPath);
+            {
+                var content = listPath;
+                if (content.Contains(temp))
+                {
+                    Console.WriteLine("username is taken, please try another one");
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
+        
+        newUser.Name = temp;
 
-        newUser.Name = screen.Read();
-
-
-        while (true) {
-
+        while (true)
+        {
             screen.Print("Select a password");
-            
+
             string passCheck = screen.Read();
             Console.WriteLine();
             screen.Print("Please reconfirm your password");
-            
+
             string passcheck2 = screen.Read();
             if (passCheck == passcheck2)
             {
@@ -62,7 +79,7 @@ public class UserBase
         }
 
         screen.Print("Vilken Kund-nivå har ni?");
-        
+
         while (true)
         {
             string tempCheck = screen.Read();
@@ -88,23 +105,26 @@ public class UserBase
             }
         }
         screen.Print($" {newUser.Name} har nu blivigt registrerad.");
-        Thread.Sleep(1500);
+        Thread.Sleep(1000);
         UserList.Add(newUser);
+
+        //skriv den nya användaren till fil
+        using StreamWriter sw = new StreamWriter(listPath, true);
+        sw.WriteLine(newUser);
+
         return UserList;
     }
 
-    public User LogIn(List<User> currentUsers)
+    public User LogIn(List<TieredUser> currentUsers)
     {
-        string tempCheck = "";
+        string tempCheck = string.Empty;
         var indexCheck = -1;
 
-        //användare
         while (true)
         {
             screen.NewScreen();
-            screen.Print("what is your username?"); 
-            screen.Center();
-            tempCheck = Console.ReadLine();
+            screen.Print("what is your username?");
+            tempCheck = screen.Read();
 
             //kolla om användaren finns
             for (int i = 0; i < currentUsers.Count; i++)
@@ -114,7 +134,6 @@ public class UserBase
                     indexCheck = i;
                 }
             }
-
             //om användaren finns, bryt ut ur loopen
             if (indexCheck != -1)
             {
@@ -122,32 +141,25 @@ public class UserBase
             }
 
             screen.Print("No User Found, Please try again.");
-            System.Threading.Thread.Sleep(1500);
+            System.Threading.Thread.Sleep(500);
         }
-        int passCheck = 3;
+        
         //Lösen
-        while (true) 
+        while (true)
         {
             screen.NewScreen();
             screen.Print("and what is your password?");
-            screen.Center();
-            
-            tempCheck = Console.ReadLine();
+            tempCheck = screen.Read();
 
             //tre försök med att matcha lösenordet till inlogget
             if (currentUsers[indexCheck].Password == tempCheck)
             {
                 return currentUsers[indexCheck];
             }
-            else if (passCheck == 0)
-            {
-                return null;
-            }
             else
             {
-                screen.Print("Wrong password " + passCheck + " attempts left");
-                passCheck--;
-                Thread.Sleep(1500);
+                screen.Print("Wrong password ");
+                Thread.Sleep(1000);
             }
         }
     }

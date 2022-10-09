@@ -21,7 +21,7 @@ public class Global
     //skriv tillbaka userInput centrerat och retunera sedan strängen
     public string Read()
     {
-        string readBack = "";
+        string readBack = string.Empty;
 
         Console.WriteLine(" ");
         while (true)
@@ -37,7 +37,7 @@ public class Global
             {
                 readBack = readBack + (char)input.KeyChar;
             }
-            else if (input.Key == ConsoleKey.Backspace)
+            else if (input.Key == ConsoleKey.Backspace && readBack.Length != 0)
             {
                 Console.SetCursorPosition((Console.WindowWidth / 2 - readBack.Length / 2), pos);
                 foreach (var VARIABLE in readBack)
@@ -81,13 +81,14 @@ public class Global
     //pixelkost banner
     public void PrintBanner()
     {
-
         int[] row1 = new int[]{ 1 ,2 , 3,  6 , 9  ,11  ,12,  13 ,14, 21, 22 ,23, 24 
             ,26 , 29,  31 ,32  ,33 , 34 , 36 , 37,  38, 39 };
         int[] row2 = new int[] { 2, 6, 7, 8, 9, 11, 12, 13, 21, 22, 26, 27, 28, 29, 31, 34, 36, 39 };
         int[] row3 = new int[] { 2, 6, 9, 11, 23, 24, 26, 29, 31, 34, 36, 37, 38, 39 };
         int[] row4 = new int[] { 2, 6, 9, 11, 12, 13, 14, 21, 22, 23, 24, 26, 29, 31, 32, 33, 34, 36 };
         Console.SetCursorPosition(Console.WindowWidth / 2 - 20, Console.CursorTop);
+        
+        
         for (int i = 1; i < 40; i++)
         {
             if (row1.Contains(i))

@@ -7,18 +7,33 @@ using System.Xml.Linq;
 
 namespace Labb2;
 
-public class User : Cart
+public class User
 {
-
-    public string Name { get; set; }
+    private string _name;
     private string _password;
 
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
     public string Password
     {
         get { return _password; }
         set { _password = value; }
     }
 
-    public char Tier { get; set; }
+    public List<Product> ShoppingCart = new List<Product>();
+
+    public override string ToString()
+    {
+        var toStringRet = string.Empty;
         
+        toStringRet += $"Name: {Name}\n";
+        toStringRet += $"Password: {Password}\n";
+        toStringRet += $"your shopping cart:\n";
+        ShoppingCart.ForEach(p => toStringRet += p.Name + "\n");
+        return toStringRet;
+    }
+
 }

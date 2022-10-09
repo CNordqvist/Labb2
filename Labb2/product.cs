@@ -12,13 +12,13 @@ public class Product
 
     private double _price;
     
-    public string name
+    public string Name
     {
         get { return _name; }
         set { _name = value; }
     }
         
-    public double price
+    public double Price
     {
         get { return _price; }
         set
