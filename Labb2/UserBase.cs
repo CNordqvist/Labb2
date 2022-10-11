@@ -44,6 +44,7 @@ public class UserBase
         var temp = screen.Read();
 
         //försök för att kolla om användaren är unik. fungerar inte än.
+        /*
         while (true)
         {
             using StreamReader sr = new StreamReader(listPath);
@@ -59,7 +60,7 @@ public class UserBase
                 }
             }
         }
-        
+        */
         newUser.Name = temp;
 
         while (true)
