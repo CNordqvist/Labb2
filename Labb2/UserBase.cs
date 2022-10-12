@@ -43,24 +43,7 @@ public class UserBase
         screen.Print("Please enter your desired username");
         var temp = screen.Read();
 
-        //försök för att kolla om användaren är unik. fungerar inte än.
-        /*
-        while (true)
-        {
-            using StreamReader sr = new StreamReader(listPath);
-            {
-                var content = listPath;
-                if (content.Contains(temp))
-                {
-                    Console.WriteLine("username is taken, please try another one");
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        */
+        
         newUser.Name = temp;
 
         while (true)

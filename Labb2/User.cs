@@ -25,15 +25,6 @@ public class User
 
     public List<Product> ShoppingCart = new List<Product>();
 
-    public override string ToString()
-    {
-        var toStringRet = string.Empty;
-        
-        toStringRet += $"Name: {Name}\n";
-        toStringRet += $"Password: {Password}\n";
-        toStringRet += $"your shopping cart:\n";
-        ShoppingCart.ForEach(p => toStringRet += p.Name + "\n");
-        return toStringRet;
-    }
+    
 
 }

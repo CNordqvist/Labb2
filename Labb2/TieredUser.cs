@@ -16,5 +16,14 @@ namespace Labb2
             get { return _tier; }
             set { _tier = value; }
         }
+
+        public override string ToString()
+        {
+            var toStringRet = string.Empty;
+
+            toStringRet += $"N:{Name}&PW:{Password}?T:{Tier}!";
+
+            return toStringRet;
+        }
     }
 }
