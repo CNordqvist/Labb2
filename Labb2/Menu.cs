@@ -11,7 +11,8 @@ namespace Labb2
     public class Menu
     {
         Global screen = new Global();
-        public void IntroScreen(UserBase currentUsers, shop theShop)
+        UserBase userBase = new UserBase();
+        public void IntroScreen(List<User> allUsers, List<Shops> allShops)
         {
             
             while (true)
@@ -21,20 +22,18 @@ namespace Labb2
                 screen.PrintRed("Hello and welcome to\n");
                 screen.PrintBanner(); 
                 screen.Print("Log in or Register a new account?\n\n");
-                var loggedinUser = new TieredUser();
+                var loggedinUser = new User();
 
-                string userInput = screen.Read();
+                string userInput = screen.Read().ToLower();
                 
                 
-                if (userInput is "register" or "Register")
+                if (userInput is "register")
                 {
-                    currentUsers.Register(currentUsers.UserList);
-                    loggedinUser = (TieredUser)currentUsers.LogIn(currentUsers.UserList);
-
+                    userBase.Register(allUsers);
                 }
-                else if (userInput is "login" or "Login" or "log in" or "Log in")
+                else if (userInput is "login" or "log in")
                 {
-                   loggedinUser = (TieredUser)currentUsers.LogIn(currentUsers.UserList);
+                   loggedinUser = userBase.LogIn(allUsers);
                 }
                 else
                 {
@@ -52,40 +51,64 @@ namespace Labb2
                     screen.Print("vad vill du göra?");
                     screen.Print("[B]uy / View [S]hoppingcart / [L]og out / [T]oString");
                     
-                    userInput = screen.Read();
+                    userInput = screen.Read().ToLower();
 
                     if
-                        (userInput is "Buy" or "buy" or "B" or "b")
+                        (userInput is "buy" or "b")
                     {
+
                         while (true)
                         {
+                            
+                            screen.Print("Which Store would you like to visit?");
+                            screen.Print("[H]ardware / [G]rocery / [C]lothing");
+                            userInput = screen.Read().ToLower();
+                            Shops wantedStore = new Shops();
+
+                            if (userInput is "hardware" or "h")
+                            { 
+                                wantedStore = allShops.Find(x => x.Type == "Hardware");
+                            }
+                            else if (userInput is "grocery" or "g")
+                            { 
+                                wantedStore = allShops.Find(x => x.Type == "Food");
+                            }
+                            else if (userInput is "clothing" or "c")
+                            { 
+                                wantedStore = allShops.Find(x => x.Type == "Clothing");
+                            }
+
                             //Printa sortimentet
                             screen.NewScreen();
-                            foreach (var product in theShop.Sortiment)
+                            foreach (var products in wantedStore.Inventory)
                             {
-                                Console.WriteLine( "  " + product.Name +
-                                       "   SeK : " + product.Price + "\n" +
-                                       "   Zimbabwean dollars : " + screen.ZimRate(product.Price) +
-                                       "   Venezuelan bolivar : " + screen.VenRate(product.Price) + "\n\n");
+                                Console.WriteLine( "  " + products.Name +
+                                       "   SeK : " + products.Price + "\n" +
+                                       "   Zimbabwean dollars : " + screen.ZimRate(products.Price) +
+                                       "   Venezuelan bolivar : " + screen.VenRate(products.Price) + "\n\n");
                             }
 
                             //lägg till i användarens shoppingCart
                             screen.Print("What would you like to buy? [M] for menu");
                             
-                            userInput = screen.Read();
-                            if (userInput is "m" or "M")
+                            userInput = screen.Read().ToLower();
+                            if (userInput is "m" or "menu")
                             {
                                 break;
                             }
                             else
                             {
-                                foreach (var product in theShop.Sortiment)
+                                foreach (var product in wantedStore.Inventory)
                                 {
                                     if (userInput == product.Name)
                                     {
-                                        loggedinUser.ShoppingCart.Add(product);
+                                        loggedinUser.Cart.Add(product);
                                         screen.Print(product.Name + " has been added to your shopping cart.");
                                         Thread.Sleep(500);
+                                    }
+                                    else
+                                    {
+                                        break;
                                     }
                                 }
                             }
@@ -104,7 +127,7 @@ namespace Labb2
 
                             //se object användaren har lagt i kundvagn och totalpriset för alla saker. 
                             screen.NewScreen();
-                            foreach (var product in loggedinUser.ShoppingCart)
+                            foreach (var product in loggedinUser.Cart)
                             {
                                 Console.WriteLine(product.Name +
                                 $"  Sek : " + product.Price +
@@ -151,11 +174,11 @@ namespace Labb2
                                 screen.Print("What would you like to remove?");
                                 screen.Center();
                                 userInput = Console.ReadLine();
-                                for (int i = 0; i < loggedinUser.ShoppingCart.Count; i++)
+                                for (int i = 0; i < loggedinUser.Cart.Count; i++)
                                 {
-                                    if (userInput == loggedinUser.ShoppingCart[i].Name)
+                                    if (userInput == loggedinUser.Cart[i].Name)
                                     {
-                                        loggedinUser.ShoppingCart.RemoveAt(i);
+                                        loggedinUser.Cart.RemoveAt(i);
                                         break;
                                     }
                                 }
@@ -167,16 +190,16 @@ namespace Labb2
                                 screen.NewScreen();
                                 screen.Print("Are you sure you want to buy these items? Yes / No");
 
-                                userInput = screen.Read();
+                                userInput = screen.Read().ToLower();
 
-                                if (userInput is "ja" or "Ja" or "yes" or "Yes")
+                                if (userInput is "ja" or "yes")
                                 {
                                     screen.NewScreen();
                                     screen.Print($"You now have {fullPrice}kr in credit-card debt");
                                     Thread.Sleep(1500);
                                     screen.Print("Congratualtions...");
                                     Thread.Sleep(1500);
-                                    loggedinUser.ShoppingCart.RemoveRange(0, loggedinUser.ShoppingCart.Count);
+                                    loggedinUser.Cart.RemoveRange(0, loggedinUser.Cart.Count);
                                     break;
                                 }
                                 

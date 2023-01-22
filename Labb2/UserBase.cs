@@ -14,53 +14,18 @@ namespace Labb2;
 public class UserBase
 {
     private Global screen = new Global();
-    public List<TieredUser> UserList = new List<TieredUser>();
 
 
-    public List<TieredUser> OldUser(List<TieredUser> UserList)
-    {
-        TieredUser knatte = new TieredUser() { Name = "Knatte", Password = "123", Tier = 'G' };
-        UserList.Add(knatte);
-
-        TieredUser fnatte = new TieredUser() { Name = "Fnatte", Password = "321", Tier = 'S' };
-        UserList.Add(fnatte);
-
-        TieredUser tjatte = new TieredUser() { Name = "Tjatte", Password = "213", Tier = 'B' };
-        UserList.Add(tjatte);
-
-        return UserList;
-    }
-
-    public List<TieredUser> Register(List<TieredUser> currentUser)
+    public void Register(List<User> allUsers)
     {
         screen.NewScreen();
-
-        TieredUser newUser = new TieredUser();
-        var desktopDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        var listPath = Path.Combine(desktopDir, "UserText.txt");
+        User newUser = new();
 
 
         screen.Print("Please enter your desired username");
         var temp = screen.Read();
 
-        //försök för att kolla om användaren är unik. fungerar inte än.
-        /*
-        while (true)
-        {
-            using StreamReader sr = new StreamReader(listPath);
-            {
-                var content = listPath;
-                if (content.Contains(temp))
-                {
-                    Console.WriteLine("username is taken, please try another one");
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        */
+        
         newUser.Name = temp;
 
         while (true)
@@ -83,19 +48,19 @@ public class UserBase
 
         while (true)
         {
-            string tempCheck = screen.Read();
+            string tempCheck = screen.Read().ToLower();
 
-            if (tempCheck is "Gold" or "gold" or "g" or "G")
+            if (tempCheck is "gold" or "g")
             {
                 newUser.Tier = 'G';
                 break;
             }
-            else if (tempCheck is "Silver" or "silver" or "s" or "S")
+            else if (tempCheck is "silver" or "s")
             {
                 newUser.Tier = 'S';
                 break;
             }
-            else if (tempCheck is "Bronze" or "bronze" or "b" or "B")
+            else if (tempCheck is "bronze" or "b")
             {
                 newUser.Tier = 'B';
                 break;
@@ -106,43 +71,32 @@ public class UserBase
             }
         }
         screen.Print($" {newUser.Name} har nu blivigt registrerad.");
+
         Thread.Sleep(1000);
-        UserList.Add(newUser);
-
-        //skriv den nya användaren till fil
-        using StreamWriter sw = new StreamWriter(listPath, true);
-        sw.WriteLine(newUser);
-
-        return UserList;
+        
     }
 
-    public User LogIn(List<TieredUser> currentUsers)
+    public User LogIn(List<User> allUsers)
     {
         string tempCheck = string.Empty;
-        var indexCheck = -1;
+        var userSearch = new User();
 
         while (true)
         {
             screen.NewScreen();
             screen.Print("what is your username?");
             tempCheck = screen.Read();
+            userSearch = allUsers.Find(x => x.Name == tempCheck);
 
-            //kolla om användaren finns
-            for (int i = 0; i < currentUsers.Count; i++)
+            if (userSearch == null)
             {
-                if (currentUsers[i].Name == tempCheck)
-                {
-                    indexCheck = i;
-                }
+                screen.Print("No User Found, Please try again.");
+                System.Threading.Thread.Sleep(500);
             }
-            //om användaren finns, bryt ut ur loopen
-            if (indexCheck != -1)
+            else
             {
                 break;
             }
-
-            screen.Print("No User Found, Please try again.");
-            System.Threading.Thread.Sleep(500);
         }
         
         //Lösen
@@ -152,14 +106,13 @@ public class UserBase
             screen.Print("and what is your password?");
             tempCheck = screen.Read();
 
-            //tre försök med att matcha lösenordet till inlogget
-            if (currentUsers[indexCheck].Password == tempCheck)
+            if (userSearch.Password == tempCheck)
             {
-                return currentUsers[indexCheck];
+                return userSearch;
             }
             else
             {
-                screen.Print("Wrong password ");
+                screen.Print("Wrong password");
                 Thread.Sleep(1000);
             }
         }
